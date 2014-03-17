@@ -5,13 +5,13 @@
   <title>textgen</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="js/script.js"></script>
-  <?php 
-    require_once '/scripts/script.php';
-  ?>
+  <?php require_once '/scripts/script.php'; ?>
 </head>
 <body>
 <div class="content">
-  <?php echo check("PHP works"); ?>
+  <pre class="text">
+    <?php echo processTxt("master.txt"); ?>
+  </pre>
 </div>
 </body>
 </html>
