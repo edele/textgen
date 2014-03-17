@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="content">
-  <?php echo check("Hello"); ?>
+  <?php echo check("PHP works"); ?>
 </div>
 </body>
 </html>
