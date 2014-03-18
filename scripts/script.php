@@ -11,7 +11,12 @@ function nextWords($word, $allWords)
   for ($i=0; $i < count($keys); $i++) { 
     $nextKey = $keys[$i];
     $nextWord =  $allWords[$nextKey+1];
-    array_push($nextWords, $nextWord);
+    if (!array_key_exists($nextWord, $nextWords)) {
+      $nextWords[$nextWord] = 1; 
+      // array_push($nextWords, $nextWord);
+    } else {
+      $nextWords[$nextWord] += 1;
+    }
   }
   return $nextWords;
 }
