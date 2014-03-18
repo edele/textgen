@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>textgen</title>
@@ -9,9 +9,9 @@
 </head>
 <body>
 <div class="content">
-  <pre class="text">
+  <div class="text--mono" id="emmanuele">
     <?php echo processTxt("master.txt"); ?>
-  </pre>
+  </div>
 </div>
 </body>
 </html>
