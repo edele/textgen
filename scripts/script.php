@@ -70,5 +70,26 @@ function processTxt($path) {
 
   $words_json = json_encode_cyr($words);
   file_put_contents('words.json', $words_json);
-  return $words_json;
+
+  $sentences = "";
+  for ($p=0; $p < 5; $p++) { 
+    # p start
+    $sentences_number = rand(5,16);
+    for ($i=0; $i < $sentences_number; $i++) {
+      $next = array_rand($words);
+      $sentences .= mb_convert_case($next, MB_CASE_TITLE, 'UTF-8');;
+      for ($j=0; $j < 16; $j++) {
+        if (!array_key_exists($next, $words)) 
+          break;
+        $sentences .= " ";
+        $next = array_rand($words[$next]);
+        $sentences .= $next;
+      }
+      $sentences .= ". ";
+    }
+    $sentences .= "\n\n";
+    # p finish
+  }
+
+  return $sentences;
 }

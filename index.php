@@ -9,8 +9,8 @@
 </head>
 <body>
 <div class="content">
-  <div class="text--mono" id="emmanuele">
-    <?php echo processTxt("master.txt"); ?>
+  <div class="text--mono">
+    <?php echo processTxt("emmanuele.txt"); ?>
   </div>
 </div>
 </body>
