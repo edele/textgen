@@ -26,7 +26,7 @@ function findWord (w, array) {
 function processTxt(words) {
   var words_number = words.length;
   sentences = "";
-  sentencesNumber = rand(5,16);
+  sentencesNumber = rand(8,16);
   for (var k = 0; k < 16; k++) {
     
     for (var i = 0; i < sentencesNumber; i++) {
@@ -62,9 +62,11 @@ $(document).ready(function() {
     function(json) {
       $("#msg").text("parsing json...");
       words = JSON.parse(json);
-      $("#msg").text("words array ready").css("background", "#cfc");
+      $("#msg").text("words array ready, generating text...");
       $("#text").text(processTxt(words));
-      if ($("#text").text() == "")
+      if ($("#text").text() != "")
+        $("#msg").text("here is the text").css("background", "#cfc");
+      else
         $("#msg").text("something gone wrong").css("background", "#fcc");
     }
   );
