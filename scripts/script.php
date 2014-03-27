@@ -1,5 +1,11 @@
 <?php 
 
+function microtime_float()
+{
+    list($usec, $sec) = explode(" ", microtime());
+    return ((float)$usec + (float)$sec);
+}
+
 
 function clearTxt($path){
    $txt = file_get_contents($path);
@@ -11,6 +17,12 @@ function clearTxt($path){
 
 function check($text='') {
   return $text;
+}
+
+function mikhalych_json_encode($arr) {
+  //convmap since 0x80 char codes so it takes all multibyte codes (above ASCII 127). So such characters are being "hidden" from normal json_encoding
+  array_walk_recursive($arr, function (&$item, $key) { if (is_string($item)) $item = mb_encode_numericentity($item, array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); });
+  return mb_decode_numericentity(json_encode($arr), array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); 
 }
 
 function json_encode_cyr($str) {
@@ -57,6 +69,8 @@ function nextWords($word, $allWords)
 }
 
 function processTxt($path) {
+  $time_start = microtime(true);
+
   $txt = file_get_contents($path);
   $allWords = preg_split( "/( |,|\.|;|:|\?|\!|\n)+/", $txt);
 
@@ -86,9 +100,12 @@ function processTxt($path) {
   $words_json = json_encode_cyr($words);
   file_put_contents('words.json', $words_json);
 
-  return 'ready'; // $words_json;
+  $time_end = microtime(true);
+  $time = $time_end - $time_start;
 
-  ///*
+  return "ready in $time"; // $words_json;
+
+  /*
   $sentences = "";
   for ($p=0; $p < 5; $p++) { 
     # p start
