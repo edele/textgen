@@ -1,6 +1,6 @@
-
-function rnd (variants) { // целочисленный рандом с нуля до variants-1
-  return Math.floor(Math.random()*variants);
+function rnd(min, max) {
+    if (!max) {max = min; min = 0}
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function radioVal (name) { // возвращает значение чекбокса
@@ -35,23 +35,4 @@ function highlight (el, reg, block) {
       return '<span style="background: #fcc;">'+str+'</span>';
   });
   el.innerHTML = result;
-}
-
-// init
-window.onload = function(){
-  console.log('window loaded');
-/*
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/,\s?/g, " , "); // запятые нужно разделять пробелами и считать отдельными словами
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/\.{2,}/g, "."); // убрать многоточия 
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/\.\s?/g, " . "); // и разделить точки 
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/\:\s?/g, " : "); // и двоеточия
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/\!\s?/g, " ! "); // и двоеточия
-  $("#emmanuele").innerHTML = $("#emmanuele").innerHTML.replace(/\?\s?/g, " ? "); // и двоеточия
-  highlight($("#emmanuele"), /\n[–—\-]\s/g ); // диаложные тире
-  highlight($("#emmanuele"), /\n/g, true ); // переносы строк
-  highlight($("#emmanuele"), /[«»]/g ); // кавычки (также нужно учесть и неправильные, но только уже в php)
-  highlight($("#emmanuele"), /\(.*?\)/g ); // содержимое скобок
-  highlight($("#emmanuele"), /…/g ); // многоточия
-  highlight($("#emmanuele"), /\s{2,}/g); // подряд идущие пробелы
-*/
 }
