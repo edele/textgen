@@ -5,21 +5,56 @@ html, body {
 }
 
 .content {
-  width: 800px;
+  width: 700px;
   margin: 0 auto;
   padding: 40px 0 0;
+  position: relative;
+}
+
+
+.text--serif {
+  font-family: "Georgia", serif;
+  line-height: 1.5em;
+  color: #333332;
+  white-space: pre-wrap;
 }
 
 .text--mono {
-  font-family: monospace;
+  font-family: "Consolas", monospace;
   white-space: pre-wrap;
 }
 
 #msg {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  padding: 5px;
+  padding: 4px 10px 6px 8px;
   /* background: #f99; */ 
   background: #ccf;
+  font-size: 12px;
+  border-radius: 0 0 5px 0;
+}
+
+.mainNav {
+  list-style: none;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.leftSidebar {
+  position: absolute;
+  width: 200px;
+  left: -200px;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.mainNav a {
+  color: #88f;
+  text-decoration: none;
+  border-bottom: 0;
+}
+
+.mainNav a:hover {
+  border-bottom: #88f 1px solid;
 }

@@ -5,8 +5,8 @@
   <title>client gen test</title>
   <link rel="stylesheet" href="/css/style.css">
   <script src="js/jquery.js"></script>
-
 <script>
+"use strict";
 function rand(min, max) {
   if (!max) {max = min; min = 0}
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -22,11 +22,12 @@ function findWord (w, array) {
   }
   return -1;
 }
-
+var startProcessing;
 function processTxt(words) {
+  startProcessing = new Date();
   var words_number = words.length;
-  sentences = "";
-  sentencesNumber = rand(8,16);
+  var sentences = "";
+  var sentencesNumber = rand(8,16);
   for (var k = 0; k < 16; k++) {
     
     for (var i = 0; i < sentencesNumber; i++) {
@@ -64,21 +65,32 @@ $(document).ready(function() {
       words = JSON.parse(json);
       $("#msg").text("words array ready, generating text...");
       $("#text").text(processTxt(words));
-      if ($("#text").text() != "")
-        $("#msg").text("here is the text").css("background", "#cfc");
+      if ($("#text").text() != ""){
+        var l = new Date() - startProcessing + " ms";
+        $("#msg").text("text processed in "+l).css("background", "#cfc");
+      }
       else
         $("#msg").text("something gone wrong").css("background", "#fcc");
     }
   );
 });
-
 </script>
-
 </head>
 <body>
+<div id="msg"></div>
 <div class="content">
-  <div id="msg"></div>
-  <div id="text" class="text--mono"></div>
+  <nav class="mainNav leftSidebar">
+    <?php 
+    $files = scandir(".");
+    $countFiles = count($files);
+      for ($i=0; $i < $countFiles; $i++) {
+        if (strpos($files[$i], ".php") !== false) {
+          echo '<li><a href="/'.$files[$i].'">'.$files[$i].'</a></li>';
+        }
+      }
+    ?>
+  </nav>
+  <div id="text" class="text--serif"></div>
 </div>
 </body>
 </html>
