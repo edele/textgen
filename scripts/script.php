@@ -1,5 +1,4 @@
-<?php 
-
+<?php
 function clearTxt($path){
    $txt = file_get_contents($path);
    //$txt = preg_replace('/[^\p{L}\p{N}\s]/u', '', $txt);
@@ -8,23 +7,28 @@ function clearTxt($path){
 }
  
 
-function check($text='') {
-  return $text;
-}
-
-function mikhalych_json_encode($arr) {
+function cyr_json_encode($arr) {
   //convmap since 0x80 char codes so it takes all multibyte codes (above ASCII 127). So such characters are being "hidden" from normal json_encoding
   array_walk_recursive($arr, function (&$item, $key) { if (is_string($item)) $item = mb_encode_numericentity($item, array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); });
   return mb_decode_numericentity(json_encode($arr, JSON_PRETTY_PRINT), array (0x80, 0xffff, 0, 0xffff), 'UTF-8'); 
 }
 
-function nextWords($word, $allWords) {
-  $keys = array_keys($allWords, $word);
+/**
+* 
+*/
+class WordsProcessor {
+
+private $allWords;
+
+public $wordsToProcess;
+
+private function nextWords($word) {
+  $keys = array_keys($this->allWords, $word);
   $nextWords = array();
   $keysCount = count($keys);
   for ($i=0; $i < $keysCount; $i++) { 
     $nextKey = $keys[$i];
-    $nextWord =  $allWords[$nextKey+1];
+    $nextWord = $this->allWords[$nextKey+1];
     if (!array_key_exists($nextWord, $nextWords)) {
       array_push($nextWords, $nextWord);
     }
@@ -40,7 +44,7 @@ function nextWords($word, $allWords) {
   return $nextWords;
 }
 
-function processTxt($path) {
+private function processTxt($path) {
   $time_start = microtime(true);
   $txt = file_get_contents($path);
   // $txt = mb_strtolower($txt, "utf8");
@@ -51,7 +55,7 @@ function processTxt($path) {
 
   /**/
 
-  $allWords = preg_split( "/( |,|\.|;|:|\?|\!|\n)+/", $txt);
+  $this->allWords = preg_split( "/( |,|\.|;|:|\?|\!|\n)+/", $txt);
   //$allWords = explode(" ", $txt);
   //$allWords = split(" ", $txt);
   /*
@@ -79,14 +83,14 @@ function processTxt($path) {
   }
   /**/
   /*print_r(nextWords("прекрасно", $allWords));  */
-  echo "\n\n";
 
+  $countAllWords = count($this->allWords);
   $words = array();
-  for ($i=0; $i < 1000; $i++) { 
-    if (!array_key_exists($allWords[$i], $words)) {
+  for ($i=0; $i < $this->wordsToProcess; $i++) { 
+    if (!array_key_exists($this->allWords[$i], $words)) {
       $current = array(
-        'word' => $allWords[$i],
-        'nextWords' => nextWords($allWords[$i], $allWords)
+        'word' => $this->allWords[$i],
+        'nextWords' => $this->nextWords($this->allWords[$i], $this->allWords)
         );
       array_push($words, $current);
       // $words[$allWords[$i]] = nextWords($allWords[$i], $allWords);
@@ -96,13 +100,14 @@ function processTxt($path) {
     }*/
   }
 
-  $words_json = mikhalych_json_encode($words);
+  $words_json = cyr_json_encode($words);
   file_put_contents('words.json', $words_json);
 
   $time_end = microtime(true);
   $time = $time_end - $time_start;
+  $time_ms = round($time*1000);
 
-  return "ready in $time"; // $words_json;
+  echo "processed ".$this->wordsToProcess." words in $time_ms ms"; // $words_json;
 
   /* // old text generation
   $sentences = "";
@@ -129,3 +134,12 @@ function processTxt($path) {
   /**/
 }
 
+function __construct($path, $wordsToProcess = 1500) {
+  if ($wordsToProcess>0) { // TODO -1 to process all whole file 
+    $this->wordsToProcess = $wordsToProcess;
+  } else {
+    echo 'negative $wordsToProcess';
+  }
+  $this->processTxt($path);
+}
+}

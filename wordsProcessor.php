@@ -21,7 +21,7 @@
     ?>
   </nav>
   <div class="text--mono"><?php 
-    echo processTxt("master.txt"); 
+    $wordsProcessor = new WordsProcessor('master.txt', 5000);
   ?></div>
 </div>
 </body>
