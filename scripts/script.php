@@ -90,7 +90,7 @@ private function processTxt($path) {
     if (!array_key_exists($this->allWords[$i], $words)) {
       $current = array(
         'word' => $this->allWords[$i],
-        'nextWords' => $this->nextWords($this->allWords[$i], $this->allWords)
+        'nextWords' => $this->nextWords($this->allWords[$i])
         );
       array_push($words, $current);
       // $words[$allWords[$i]] = nextWords($allWords[$i], $allWords);
