@@ -54,7 +54,7 @@ $(document).ready(function() {
       words = JSON.parse(json);
       $("#msg").text("words array ready, generating text...");
       $("#text").text(generateSentences(words));
-      if ($("#text").text() != ""){
+      if ($("#text").text() != "") {
         var l = new Date() - startProcessingTime + " ms";
         $("#msg").text("text processed in "+l).css("background", "#cfc");
       }

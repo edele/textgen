@@ -22,16 +22,33 @@ function processTxt(txt) {
   allWords = txt.split(/( |,|\.|;|:|\?|\!|\n)+/);
   // console.log(allWords); // очень дорогой console.log
 
-  for (var i = 0; i < allWords.length; i++) {
-    if (words.indexOf(allWords[i]) == -1) {
-      words.push(allWords[i]);
+  // отсеиваем лишнее
+  for (var i = 0; i < allWords.length/10; i++) {
+    ///*
+    for (var j = 0; j < words.length; j++) {
+      console.log(j);
+        words.push({"word":allWords[i], "quantity":1});
+      if(words[j].word.indexOf(allWords[i])!=-1) {
+        words.push({"word":allWords[i], "quantity":1});
+      }
     }
+    /**/
+
+
+    /*
+    if (words.indexOf(allWords[i]) == -1) {
+      words.push({"word":allWords[i], "quantity":1});
+    }
+    /**/
   };
+
+
 
   return words;
 }
 
 var text;
+var words;
 var startProcessingTime;
 $(document).ready(function() {
   $("#msg").text("getting file...");
@@ -41,7 +58,8 @@ $(document).ready(function() {
     }, 
     function(txt) {
       text = txt;
-      var words = processTxt(text);
+      words = processTxt(text);
+      console.log(words);
       var l = new Date() - startProcessingTime + " ms";
       $("#msg").text("text processed in "+l).css("background", "#cfc");
       //console.log(words);
